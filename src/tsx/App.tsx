@@ -1,9 +1,43 @@
 import * as React from "react";
-import { output } from "../../webpack.config";
+import { Directory, stringifyPath, arrayPath, sanitisePath } from "./Directory";
 
-const filesystem = {
-    
-};
+// interface Directory {
+//     parent: Directory | null,
+//     childDirectories: Map<string, Directory>,
+//     children: any[],
+// }
+
+// function makeDirectory(data: any, parent: Directory = null): Directory {
+//     const directory: Directory = {
+//         parent: parent,
+//         childDirectories: new Map(),
+//         children: [],
+//     };
+
+//     for (const entry of Object.entries(data)) {
+//         const [name, content] = entry;
+//         if (content instanceof Object) {
+//             directory.childDirectories.set(name, makeDirectory(content, directory));
+//         }
+//         else {
+//             directory.children.push(content);
+//         }
+//     }
+
+//     return directory;
+// }
+
+// function absolutePath(directory: Directory) {
+//     return absolutePath(directory);
+// }
+
+const filesystem = Directory.fromObject({
+    "foo.txt": "Hello world!",
+    foo: {},
+});
+
+console.log(filesystem);
+console.log(filesystem.childDirectories.get("foo").path());
 
 function simpleProgram(program: (input: string) => string) {
     return async (input: string, api: React.MutableRefObject<API>) => {
@@ -11,9 +45,65 @@ function simpleProgram(program: (input: string) => string) {
     };
 }
 
+function synchronousProgram(program: (input: string, api: React.MutableRefObject<API>) => string) {
+    return async (input: string, api: React.MutableRefObject<API>) => {
+        api.current.pushOverEditable(program(input, api));
+    };
+}
+
 const programs = new Map<string, Program>();
 // programs.set("echo", async (s, api) => api.current.pushOverEditable(s.split(" ").slice(1).join(" ")));
 programs.set("echo", simpleProgram(s => s.split(" ").slice(1).join(" ")));
+programs.set("cat", synchronousProgram((s, api) => {
+    const path = arrayPath(sanitisePath(s.split(" ").slice(1).join(" ")));
+    const wd = api.current.getEnv().current.workingDir;
+    const res = filesystem.resolvePath(wd).resolvePath(path);
+    if (res === undefined) return "Not found.";
+    if (res instanceof Directory) return "Path is a directory.";
+    return res.toString();
+}));
+programs.set("ls", synchronousProgram((s, api) => {
+    const wd = api.current.getEnv().current.workingDir;
+    const dir = filesystem.resolvePath(wd);
+    return stringifyPath(wd) + " (" + dir.name + ")\n=== Directories ===\n\t" + [...dir.childDirectories.keys()].join("\n\t") + "\n=== Files ===\n\t" + [...dir.children.keys()].join("\n\t");
+}));
+programs.set("cd", synchronousProgram((s, api) => {
+    // const path = s.split(" ").slice(1).join(" ").replace("\n", "").split("/").filter(v => v !== ".");
+    const path = arrayPath(sanitisePath(s.split(" ").slice(1).join(" ")));
+    if (path.length === 0) return "";
+    // console.log(api.current.getEnv().current.workingDir);
+    const filesystem = api.current.getFilesystem();
+    const res = filesystem.resolvePath(api.current.getEnv().current.workingDir).resolvePath(path);
+    if (res === undefined) return "Path could not be resolved";
+    if (res instanceof Directory) {
+        api.current.getEnv().current.workingDir = res.path();
+        return "";
+    }
+    return "Path resolves to a file.";
+    // if (path[0] !== "") { // relative
+    //     path = api.current.getEnv().current.workingDir.concat(path);
+    // } // now absolute
+    // // const actualPath = [];
+    // let current = filesystem;
+    // for (const dir of path) {
+    //     if (dir === "..") {
+    //         current = current.parent ?? current;
+    //         continue;
+    //     }
+    //     const next = current.childDirectories.get(dir);
+    //     if (next === undefined) {
+    //         if (current.children.has(dir)) {
+    //             return dir + " is not a directory.";
+    //         }
+    //         return dir + " does not exist.";
+    //     }
+    //     // actualPath.push(dir);
+    //     current = next;
+    // }
+    // api.current.getEnv().current.workingDir = current.path();
+    // return "";
+}));
+programs.set("help", simpleProgram(_ => [...programs.keys()].join("\n")))
 
 // https://w3c.github.io/input-events/#interface-InputEvent-Attributes
 // deleteContent needs testing
@@ -26,6 +116,12 @@ interface API {
     pushOverEditable: (s: string) => any,
     // outputState: () => OutputState,
     setOutputState: (state: OutputState) => any,
+    getFilesystem: () => Directory,
+    getEnv: () => React.MutableRefObject<EnvironmentVariables>,
+}
+
+interface EnvironmentVariables {
+    workingDir: string[],
 }
 
 interface OutputState {
@@ -34,8 +130,13 @@ interface OutputState {
 }
 
 export default function App() {
+    const envRef = React.useRef<EnvironmentVariables>({
+        workingDir: [""],
+    });
+
     function getPrompt() {
-        return "\nλ > ";
+        // return "\nλ > ";
+        return "\n" + stringifyPath(envRef.current.workingDir) + " > ";
     }
 
     // const [output, setOutput] = React.useState("Hello world!\nWelcome to Shiterminal!\n" + getPrompt());
@@ -58,6 +159,8 @@ export default function App() {
         pushBeforeEditable: pushBeforeEditable,
         pushOverEditable: pushOverEditable,
         setOutputState: setOutputState,
+        getFilesystem: () => filesystem,
+        getEnv: () => envRef,
     };
 
     // function writeSelection() {
@@ -119,8 +222,11 @@ export default function App() {
                 pushOverEditable(getPrompt());
             });
         }
+        else if (input === "") {
+            pushBeforeEditable(getPrompt());
+        }
         else {
-            pushOverEditable("Huh?" + getPrompt());
+            pushOverEditable(input + " is not a program." + getPrompt());
         }
     }
 
