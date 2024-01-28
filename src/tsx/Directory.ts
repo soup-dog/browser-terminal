@@ -77,7 +77,10 @@ export class Directory {
         return path;
     }
 
-    resolvePath(path: string[]): Directory | File {
+    resolvePath(path: string[]): {
+        type: "directory" | "file",
+        value: Directory | File,
+    } {
         if (isAbsolute(path)) {
             if (this.parent) {
                 return this.root().resolvePath(path);
@@ -97,14 +100,21 @@ export class Directory {
             const next = current.childDirectories.get(dir);
             if (next === undefined) {
                 if (i === path.length - 1) {
-                    return current.children.get(dir);
+                    const file = current.children.get(dir);
+                    return file ? {
+                        type: "file",
+                        value: file,
+                    } : undefined;
                 }
                 return undefined;
             }
             current = next;
         }
 
-        return current;
+        return {
+            type: "directory",
+            value: current,
+        };
     }
 
     root(): Directory {
