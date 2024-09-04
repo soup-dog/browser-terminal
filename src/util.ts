@@ -1,4 +1,4 @@
-import API from "./tsx/API";
+import API from "./API";
 
 export function parseIntDefault(s: string, _default: number): number {
     if (s === undefined || s === null) return _default;

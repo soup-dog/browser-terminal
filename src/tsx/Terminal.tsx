@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Directory, stringifyPath } from "./Directory";
-import EnvironmentVariables from "./EnvironmentVariables";
-import API from "./API";
-import { Program } from "./Program";
+import { Directory, stringifyPath } from "../Directory";
+import EnvironmentVariables from "../EnvironmentVariables";
+import API from "../API";
+import { Program } from "../Program";
 
 
 // https://w3c.github.io/input-events/#interface-InputEvent-Attributes

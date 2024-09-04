@@ -1,16 +1,16 @@
 import * as React from "react";
-import { Directory, stringifyPath, arrayPath, sanitisePath } from "./Directory";
-import API from "./API";
-import EnvironmentVariables from "./EnvironmentVariables";
-import guesser from "./programs/guesser";
-import trains from "./programs/trains";
-import box from "./programs/box";
-import rat from "./programs/rat";
-import ls from "./programs/ls";
-import cd from "./cd";
+import { Directory, stringifyPath, arrayPath, sanitisePath } from "../Directory";
+import API from "../API";
+import EnvironmentVariables from "../EnvironmentVariables";
+import guesser from "../programs/guesser";
+import trains from "../programs/trains";
+import box from "../programs/box";
+import rat from "../programs/rat";
+import ls from "../programs/ls";
+import cd from "../cd";
 import Terminal from "./Terminal";
 import { simpleProgram } from "../util";
-import { Program } from "./Program";
+import { Program } from "../Program";
 
 
 const filesystem = Directory.fromObject({

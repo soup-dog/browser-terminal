@@ -1,4 +1,4 @@
-import { synchronousProgram } from "../../util";
+import { synchronousProgram } from "../util";
 import { arrayPath, sanitisePath } from "../Directory";
 
 const rat = synchronousProgram((s, api) => {

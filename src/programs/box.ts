@@ -1,4 +1,4 @@
-import { simpleProgram } from "../../util";
+import { simpleProgram } from "../util";
 
 const box = simpleProgram((s: string) => {
     // ┌┐└┘ ─│

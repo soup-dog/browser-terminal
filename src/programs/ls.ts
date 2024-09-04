@@ -1,4 +1,4 @@
-import { synchronousProgram } from "../../util";
+import { synchronousProgram } from "../util";
 import { stringifyPath } from "../Directory";
 
 const ls = synchronousProgram((s, api) => {
