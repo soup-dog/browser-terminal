@@ -1,6 +1,5 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-
 module.exports = {
     entry: "./src/tsx/index.tsx",
     module: {
@@ -10,7 +9,6 @@ module.exports = {
                 use: "ts-loader",
                 exclude: /node_modules/,
             },
-
             {
                 test: /.css$/,
                 use: ["style-loader", "css-loader"],
@@ -31,4 +29,5 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({ template: "./src/templates/index.html" }),
     ],
-}
+};
+//# sourceMappingURL=webpack.config.js.map
