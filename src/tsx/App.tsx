@@ -7,7 +7,7 @@ import trains from "../programs/trains";
 import box from "../programs/box";
 import rat from "../programs/rat";
 import ls from "../programs/ls";
-import cd from "../cd";
+import cd from "../programs/cd";
 import Terminal from "./Terminal";
 import { simpleProgram } from "../util";
 import { Program } from "../Program";

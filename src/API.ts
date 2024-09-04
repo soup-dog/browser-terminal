@@ -1,5 +1,6 @@
 import { Directory } from "./Directory";
 import EnvironmentVariables from "./EnvironmentVariables";
+import OutputState from "./OutputState";
 
 export default interface API {
     pushBeforeEditable: (s: string) => any,

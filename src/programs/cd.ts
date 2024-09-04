@@ -1,5 +1,5 @@
-import { synchronousProgram } from "./util";
-import { arrayPath, sanitisePath } from "./Directory";
+import { synchronousProgram } from "../util";
+import { arrayPath, sanitisePath } from "../Directory";
 
 const cd = synchronousProgram((s, api) => {
     // const path = s.split(" ").slice(1).join(" ").replace("\n", "").split("/").filter(v => v !== ".");
