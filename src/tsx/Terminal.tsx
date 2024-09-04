@@ -10,18 +10,27 @@ import OutputState from "../OutputState";
 // deleteContent needs testing
 const DELETE_BACKWARDS = ["deleteWordBackward", "deleteSoftLineBackward", "deleteHardLineBackward", "deleteContent", "deleteContentBackward"];
 
-export default function Terminal({ programs, filesystem }: { programs: Map<string, Program>, filesystem: Directory }) {
+export default function Terminal({
+    programs, filesystem,
+    getPrompt = env => "\n" + stringifyPath(env.workingDir.path()) + " > ",
+    initialState = "Browser Terminal\n" }:
+    {
+        programs: Map<string, Program>,
+        filesystem: Directory,
+        getPrompt?: (env: EnvironmentVariables) => string, 
+        initialState?: string
+    }) {
     const envRef = React.useRef<EnvironmentVariables>({
         workingDir: filesystem,
     });
 
-    function getPrompt() {
-        return "\n" + stringifyPath(envRef.current.workingDir.path()) + " > ";
-    }
+    // function getPrompt() {
+    //     return "\n" + stringifyPath(envRef.current.workingDir.path()) + " > ";
+    // }
 
     // const [output, setOutput] = React.useState("Hello world!\nWelcome to Shiterminal!\n" + getPrompt());
     const [outputState, setOutputState] = React.useState<OutputState>(() => {
-        const s = "Browser Terminal\n" + getPrompt();
+        const s = initialState + getPrompt(envRef.current);
         return {
             output: s,
             editableIndex: s.length,
@@ -116,14 +125,14 @@ export default function Terminal({ programs, filesystem }: { programs: Map<strin
             setState("program");
             program(input, apiRef).then(() => {
                 setState("shell");
-                pushOverEditable(getPrompt());
+                pushOverEditable(getPrompt(envRef.current));
             });
         }
         else if (input === "") {
-            pushBeforeEditable(getPrompt());
+            pushBeforeEditable(getPrompt(envRef.current));
         }
         else {
-            pushOverEditable(input + " is not a program." + getPrompt());
+            pushOverEditable(input + " is not a program." + getPrompt(envRef.current));
         }
     }
 
