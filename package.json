@@ -4,6 +4,9 @@
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "webpack --watch --mode=development"
   },
