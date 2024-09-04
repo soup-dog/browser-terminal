@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,8 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { selectDefault, parseIntDefault } from "../util";
-export default function trains(s, api) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = trains;
+const util_1 = require("../util");
+function trains(s, api) {
     return __awaiter(this, void 0, void 0, function* () {
         // ─│┌┐└┘├┤┬┴┼
         const params = s.split(" ").slice(1);
@@ -16,12 +19,12 @@ export default function trains(s, api) {
             api.current.pushOverEditable("Model trains.\nUsage: trains <mode: normal|serious|silly|batshit> <railway count> <stop count> <train count> <rows> <cols>");
             return;
         }
-        const mode = selectDefault(params[0], ["normal", "serious", "silly", "batshit"], "normal");
-        const railwayCount = parseIntDefault(params[1], 3);
-        const stopCount = parseIntDefault(params[2], 3);
-        const trainCount = parseIntDefault(params[3], 3);
-        const rows = parseIntDefault(params[4], 64);
-        const cols = parseIntDefault(params[5], 64);
+        const mode = (0, util_1.selectDefault)(params[0], ["normal", "serious", "silly", "batshit"], "normal");
+        const railwayCount = (0, util_1.parseIntDefault)(params[1], 3);
+        const stopCount = (0, util_1.parseIntDefault)(params[2], 3);
+        const trainCount = (0, util_1.parseIntDefault)(params[3], 3);
+        const rows = (0, util_1.parseIntDefault)(params[4], 64);
+        const cols = (0, util_1.parseIntDefault)(params[5], 64);
         let interval;
         function pToI(r, c) {
             return cols * r + c;

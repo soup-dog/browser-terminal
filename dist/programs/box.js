@@ -1,5 +1,7 @@
-import { simpleProgram } from "../util";
-const box = simpleProgram((s) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util");
+const box = (0, util_1.simpleProgram)((s) => {
     // ┌┐└┘ ─│
     console.log(JSON.stringify(s));
     const lines = s.split(" ").slice(1).join(" ").split("\n");
@@ -7,4 +9,4 @@ const box = simpleProgram((s) => {
     console.log(lines);
     return "┌" + "─".repeat(width) + "┐\n" + lines.map(l => "│" + l + " ".repeat(width - l.length) + "│\n").join("") + "└" + "─".repeat(width) + "┘\n";
 });
-export default box;
+exports.default = box;

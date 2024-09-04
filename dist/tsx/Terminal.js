@@ -1,9 +1,12 @@
-import * as React from "react";
-import { stringifyPath } from "../Directory";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = Terminal;
+const React = require("react");
+const Directory_1 = require("../Directory");
 // https://w3c.github.io/input-events/#interface-InputEvent-Attributes
 // deleteContent needs testing
 const DELETE_BACKWARDS = ["deleteWordBackward", "deleteSoftLineBackward", "deleteHardLineBackward", "deleteContent", "deleteContentBackward"];
-export default function Terminal({ programs, filesystem, getPrompt = env => "\n" + stringifyPath(env.workingDir.path()) + " > ", initialState = "Browser Terminal\n" }) {
+function Terminal({ programs, filesystem, getPrompt = env => "\n" + (0, Directory_1.stringifyPath)(env.workingDir.path()) + " > ", initialState = "Browser Terminal\n" }) {
     var _a, _b, _c, _d;
     const envRef = React.useRef({
         workingDir: filesystem,

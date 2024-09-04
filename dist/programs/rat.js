@@ -1,7 +1,9 @@
-import { synchronousProgram } from "../util";
-import { arrayPath, sanitisePath } from "../Directory";
-const rat = synchronousProgram((s, api) => {
-    const path = arrayPath(sanitisePath(s.split(" ").slice(1).join(" ")));
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util");
+const Directory_1 = require("../Directory");
+const rat = (0, util_1.synchronousProgram)((s, api) => {
+    const path = (0, Directory_1.arrayPath)((0, Directory_1.sanitisePath)(s.split(" ").slice(1).join(" ")));
     const wd = api.current.getEnv().workingDir;
     const res = wd.resolvePath(path);
     if (res === undefined)
@@ -14,4 +16,4 @@ const rat = synchronousProgram((s, api) => {
     _QQ /
  ~~(__">`;
 });
-export default rat;
+exports.default = rat;

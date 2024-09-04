@@ -1,8 +1,10 @@
-import { synchronousProgram } from "../util";
-import { arrayPath, sanitisePath } from "../Directory";
-const cd = synchronousProgram((s, api) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const util_1 = require("../util");
+const Directory_1 = require("../Directory");
+const cd = (0, util_1.synchronousProgram)((s, api) => {
     // const path = s.split(" ").slice(1).join(" ").replace("\n", "").split("/").filter(v => v !== ".");
-    const path = arrayPath(sanitisePath(s.split(" ").slice(1).join(" ")));
+    const path = (0, Directory_1.arrayPath)((0, Directory_1.sanitisePath)(s.split(" ").slice(1).join(" ")));
     if (path.length === 0)
         return "";
     // console.log(api.current.getEnv().current.workingDir);
@@ -16,4 +18,4 @@ const cd = synchronousProgram((s, api) => {
     }
     return "Path resolves to a file.";
 });
-export default cd;
+exports.default = cd;

@@ -1,13 +1,20 @@
-export var AddReturnCode;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Directory = exports.AddReturnCode = void 0;
+exports.isAbsolute = isAbsolute;
+exports.stringifyPath = stringifyPath;
+exports.sanitisePath = sanitisePath;
+exports.arrayPath = arrayPath;
+var AddReturnCode;
 (function (AddReturnCode) {
     AddReturnCode[AddReturnCode["OK"] = 0] = "OK";
     AddReturnCode[AddReturnCode["AlreadyExists"] = 1] = "AlreadyExists";
     AddReturnCode[AddReturnCode["HasParent"] = 2] = "HasParent";
-})(AddReturnCode || (AddReturnCode = {}));
-export function isAbsolute(path) {
+})(AddReturnCode || (exports.AddReturnCode = AddReturnCode = {}));
+function isAbsolute(path) {
     return path[0] === "";
 }
-export function stringifyPath(path) {
+function stringifyPath(path) {
     if (path.length === 0)
         return "";
     if (isAbsolute(path)) {
@@ -16,13 +23,13 @@ export function stringifyPath(path) {
     }
     return path.join("/");
 }
-export function sanitisePath(path) {
+function sanitisePath(path) {
     return path.replace("\n", "");
 }
-export function arrayPath(path) {
+function arrayPath(path) {
     return path.split("/");
 }
-export class Directory {
+class Directory {
     constructor(name = "") {
         this.name = "";
         this.parent = null;
@@ -107,3 +114,4 @@ export class Directory {
         return this;
     }
 }
+exports.Directory = Directory;
