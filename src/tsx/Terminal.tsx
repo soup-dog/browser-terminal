@@ -10,17 +10,18 @@ import OutputState from "../OutputState";
 // deleteContent needs testing
 const DELETE_BACKWARDS = ["deleteWordBackward", "deleteSoftLineBackward", "deleteHardLineBackward", "deleteContent", "deleteContentBackward"];
 
+interface TerminalProps extends React.HTMLAttributes<HTMLTextAreaElement> {
+    programs: Map<string, Program>,
+    filesystem: Directory,
+    getPrompt?: (env: EnvironmentVariables) => string,
+    initialState?: string,
+}
+
 export default function Terminal({
     programs, filesystem,
     getPrompt = env => "\n" + stringifyPath(env.workingDir.path()) + " > ",
     initialState = "Browser Terminal\n",
-    ...rest }:
-    {
-        programs: Map<string, Program>,
-        filesystem: Directory,
-        getPrompt?: (env: EnvironmentVariables) => string, 
-        initialState?: string
-    }) {
+    ...rest }: TerminalProps) {
     const envRef = React.useRef<EnvironmentVariables>({
         workingDir: filesystem,
     });
