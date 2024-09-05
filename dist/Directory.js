@@ -93,10 +93,11 @@ class Directory {
             if (next === undefined) {
                 if (i === path.length - 1) {
                     const file = current.children.get(dir);
-                    return file ? {
+                    return file === undefined ?
+                        undefined : {
                         type: "file",
                         value: file,
-                    } : undefined;
+                    };
                 }
                 return undefined;
             }

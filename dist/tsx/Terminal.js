@@ -129,6 +129,7 @@ function Terminal(_a) {
     // }, [selection]);
     React.useEffect(() => {
         if (textarea.current) {
+            const capturedTextarea = textarea.current;
             const onBeforeInput = (e) => {
                 insertingLineBreak.current = e.inputType === "insertLineBreak";
                 // console.log(e.inputType);
@@ -155,8 +156,8 @@ function Terminal(_a) {
                 // console.log("prevent default");
                 // e.preventDefault();
             };
-            textarea.current.addEventListener("beforeinput", onBeforeInput);
-            return () => textarea.current.removeEventListener("beforeinput", onBeforeInput);
+            capturedTextarea.addEventListener("beforeinput", onBeforeInput);
+            return () => capturedTextarea.removeEventListener("beforeinput", onBeforeInput);
         }
     }, [textarea, outputState]);
     return (React.createElement("textarea", Object.assign({ 

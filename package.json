@@ -8,7 +8,8 @@
     "dist"
   ],
   "scripts": {
-    "test": "webpack --watch --mode=development"
+    "test": "webpack --watch --mode=development",
+    "build": "npx tsc --build --clean && npx tsc"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.3",
