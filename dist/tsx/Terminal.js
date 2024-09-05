@@ -1,4 +1,15 @@
 "use strict";
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Terminal;
 const React = require("react");
@@ -6,8 +17,9 @@ const Directory_1 = require("../Directory");
 // https://w3c.github.io/input-events/#interface-InputEvent-Attributes
 // deleteContent needs testing
 const DELETE_BACKWARDS = ["deleteWordBackward", "deleteSoftLineBackward", "deleteHardLineBackward", "deleteContent", "deleteContentBackward"];
-function Terminal({ programs, filesystem, getPrompt = env => "\n" + (0, Directory_1.stringifyPath)(env.workingDir.path()) + " > ", initialState = "Browser Terminal\n" }) {
-    var _a, _b, _c, _d;
+function Terminal(_a) {
+    var _b, _c, _d, _e;
+    var { programs, filesystem, getPrompt = env => "\n" + (0, Directory_1.stringifyPath)(env.workingDir.path()) + " > ", initialState = "Browser Terminal\n" } = _a, rest = __rest(_a, ["programs", "filesystem", "getPrompt", "initialState"]);
     const envRef = React.useRef({
         workingDir: filesystem,
     });
@@ -40,8 +52,8 @@ function Terminal({ programs, filesystem, getPrompt = env => "\n" + (0, Director
         clearOutput: clearOutput,
         getFilesystem: () => filesystem,
         getEnv: () => envRef.current,
-        onLineBreak: (_b = (_a = apiRef.current) === null || _a === void 0 ? void 0 : _a.onLineBreak) !== null && _b !== void 0 ? _b : null,
-        onChange: (_d = (_c = apiRef.current) === null || _c === void 0 ? void 0 : _c.onChange) !== null && _d !== void 0 ? _d : null,
+        onLineBreak: (_c = (_b = apiRef.current) === null || _b === void 0 ? void 0 : _b.onLineBreak) !== null && _c !== void 0 ? _c : null,
+        onChange: (_e = (_d = apiRef.current) === null || _d === void 0 ? void 0 : _d.onChange) !== null && _e !== void 0 ? _e : null,
     };
     // function writeSelection() {
     //     if (selection && textarea.current) {
@@ -147,7 +159,7 @@ function Terminal({ programs, filesystem, getPrompt = env => "\n" + (0, Director
             return () => textarea.current.removeEventListener("beforeinput", onBeforeInput);
         }
     }, [textarea, outputState]);
-    return (React.createElement("textarea", { 
+    return (React.createElement("textarea", Object.assign({ 
         // onSelect={(e) => {
         //     const element = (e.target as HTMLTextAreaElement);
         //     // realStart.current = (e.target as HTMLTextAreaElement).selectionStart;
@@ -192,5 +204,5 @@ function Terminal({ programs, filesystem, getPrompt = env => "\n" + (0, Director
             if (e.key === "Shift") {
                 shiftDown.current = false;
             }
-        }, spellCheck: false }));
+        }, spellCheck: false }, rest)));
 }

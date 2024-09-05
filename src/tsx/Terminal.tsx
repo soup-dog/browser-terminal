@@ -13,7 +13,8 @@ const DELETE_BACKWARDS = ["deleteWordBackward", "deleteSoftLineBackward", "delet
 export default function Terminal({
     programs, filesystem,
     getPrompt = env => "\n" + stringifyPath(env.workingDir.path()) + " > ",
-    initialState = "Browser Terminal\n" }:
+    initialState = "Browser Terminal\n",
+    ...rest }:
     {
         programs: Map<string, Program>,
         filesystem: Directory,
@@ -231,6 +232,7 @@ export default function Terminal({
                 }
             }}
             spellCheck={false}
+            {...rest}
         >
 
         </textarea>
